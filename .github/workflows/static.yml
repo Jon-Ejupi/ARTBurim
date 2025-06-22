@@ -1,0 +1,44 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Or your default branch like 'master'
+  workflow_dispatch: # Allows manual triggering of the workflow
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Example: If you have a static site, you might just copy files
+      # If you have a build process (e.g., Jekyll, Next.js, Vite), this is where you'd run it.
+      - name: Build site (example for static HTML)
+        run: |
+          mkdir _site
+          echo "<h1>Hello from GitHub Pages Environment!</h1><p>Deployed by ${{ github.actor }}</p>" > _site/index.html
+          echo "$(date)" >> _site/index.html # Add a timestamp
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './_site' # The directory containing your built site files
+
+  deploy:
+    environment:
+      name: github-pages # This must match the name of your environment in settings
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build # This ensures the 'build' job completes before 'deploy' starts
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        
