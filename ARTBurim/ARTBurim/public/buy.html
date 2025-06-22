@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buy Artwork | ARTBurim Gallery</title>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=EUR&components=buttons,funding-eligibility"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2a5c3c;
+            --secondary: #64ffda;
+            --accent: #d4a373;
+            --light: #f8f9fa;
+            --dark: #0a192f;
+            --gray: #8892b0;
+        }
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary);
+            padding: 20px 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--light);
+        }
+        .logo span {
+            color: var(--secondary);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        nav a {
+            color: var(--light);
+            font-size: 18px;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+        }
+        nav a:hover,
+        nav a.active {
+            color: var(--secondary);
+        }
+        .buy-section {
+            padding: 60px 20px;
+            background-color: var(--light);
+        }
+        .buy-form {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: 600;
+            margin-top: 15px;
+            display: block;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        #paypal-button-container {
+            margin-top: 20px;
+        }
+        .custom-pay-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .custom-pay-buttons button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #e0e0e0;
+            color: #000;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .custom-pay-buttons button i {
+            font-size: 18px;
+        }
+        .custom-pay-buttons button:hover {
+            background-color: #ccc;
+        }
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        footer p {
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo"><i class="fas fa-palette"></i> ART<span>Burim</span></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Shop</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="FAQs.html">FAQs</a></li>
+                    <li><a href="mailto:burimajdini.ba@gmail.com">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="buy-section">
+        <div class="container">
+            <h1>Purchase Artwork</h1>
+            <div class="buy-form">
+                <form id="purchase-form">
+                    <label for="artwork">Select Artwork</label>
+                    <select id="artwork" name="artwork" required>
+                        <option value="" disabled selected>Select an artwork</option>
+                        <option value="Crimson Horizon|1854.66">Crimson Horizon - €1,854.66</option>
+                        <option value="Sunset's Embrace|2587.55">Sunset's Embrace - €2,587.55</option>
+                        <option value="Crimson Mirage|2450.88">Crimson Mirage - €2,450.88</option>
+                        <option value="Prismatic Fields 2023|2950.00">Prismatic Fields (2023) - €2,950.00</option>
+                        <option value="Prismatic Fields 2021|3550.00">Prismatic Fields (2021) - €3,550.00</option>
+                        <option value="Prismatic Fields 2022|2550.00">Prismatic Fields (2022) - €2,550.00</option>
+                    </select>
+
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="address">Shipping Address</label>
+                    <textarea id="address" name="address" rows="4" required></textarea>
+
+                    <div class="custom-pay-buttons">
+                        <button type="button"><i class="fab fa-paypal"></i> PayPal</button>
+                        <button type="button"><i class="fab fa-cc-visa"></i> Visa</button>
+                        <button type="button"><i class="fab fa-cc-mastercard"></i> MasterCard</button>
+                        <button type="button"><i class="fab fa-google-pay"></i> Google Pay</button>
+                    </div>
+
+                    <div id="paypal-button-container"></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ARTBurim Gallery. All rights reserved. | Created with passion for art</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('purchase-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const artwork = document.getElementById('artwork').value;
+            const [artworkName, price] = artwork.split('|');
+
+            paypal.Buttons({
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: {
+                                value: price,
+                                currency_code: 'EUR'
+                            },
+                            description: `Purchase of ${artworkName} from ARTBurim Gallery`
+                        }]
+                    });
+                },
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                        window.location.href = 'thank-you.html';
+                    });
+                },
+                onError: function (err) {
+                    console.error('PayPal Error:', err);
+                    alert('An error occurred during the transaction. Please try again.');
+                }
+            }).render('#paypal-button-container');
+        });
+    </script>
+</body>
+</html>
+<script>
+        document.querySelectorAll('.custom-pay-buttons button').forEach(button => {
+            button.addEventListener('click', function () {
+                alert('This payment method is currently not available. Please use PayPal.');
+            });
+        });
+    </script>

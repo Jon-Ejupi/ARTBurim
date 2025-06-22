@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTBurim | Artist Spotlight: Burim Ajdini</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #2a5c3c;
+            --secondary: #64ffda;
+            --accent: #d4a373;
+            --light: #f8f9fa;
+            --dark: #0a192f;
+            --gray: #8892b0;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--light);
+            font-weight: 600;
+            font-size: 18px;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            color: var(--light);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .artist-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1543857778-c4a1a569e7bd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light);
+            margin-bottom: 60px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+        }
+        
+        .hero-content h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Artist Spotlight Styles */
+        .artist-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .artist-bio {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .artist-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .artist-portrait {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 30px;
+            border: 5px solid var(--accent);
+        }
+        
+        .artist-info h2 {
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .artist-tagline {
+            font-size: 20px;
+            color: var(--accent);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+        
+        .artist-social {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .artist-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .artist-social a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .bio-content p {
+            margin-bottom: 20px;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 40px 0;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent);
+        }
+        
+        .timeline-item {
+            margin-bottom: 30px;
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -13px;
+            top: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid var(--accent);
+        }
+        
+        .timeline-year {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+            font-size: 20px;
+        }
+        
+        .timeline-content {
+            background: rgba(212, 163, 115, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .artistic-style {
+            margin: 40px 0;
+        }
+        
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .style-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .style-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .style-img {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .style-content {
+            padding: 20px;
+        }
+        
+        .style-content h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* Gallery Styles */
+        .gallery-section {
+            margin: 60px 0;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            height: 300px;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        .gallery-title {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .gallery-year {
+            font-size: 14px;
+            color: var(--secondary);
+        }
+        
+        /* Interview Section */
+        .interview-section {
+            margin: 60px 0;
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .interview-question {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .interview-answer {
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 3px solid var(--accent);
+            padding-left: 15px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar-widget {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-widget h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .sidebar-widget h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .about-widget img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .about-widget p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+        
+        .categories-list {
+            list-style: none;
+        }
+        
+        .categories-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .categories-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .categories-list a {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+        
+        .categories-list a:hover {
+            color: var(--secondary);
+        }
+        
+        .popular-posts .post {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .popular-posts .post:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .popular-posts .post-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .popular-posts .post-content h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+        }
+        
+        .popular-posts .post-date {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* Newsletter */
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .newsletter-form input {
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+        }
+        
+        .newsletter-form button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 5px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-form button:hover {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            display: block;
+            padding: 5px 0;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .contact-info li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .artist-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .style-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .artist-hero h1 {
+                font-size: 42px;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                padding: 10px 20px;
+            }
+            
+            .artist-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .artist-portrait {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .artist-social {
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .artist-hero h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-palette"></i>
+                ART<span>Burim</span>
+            </a>
+            
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-store"></i> Shop</a></li>
+                    <li><a href="blog.html"><i class="fas fa-blog"></i> Blog</a></li>
+                    <li><a href="FAQs.html"><i class="fas fa-info-circle"></i> FAQs</a></li>
+                    <li><a href="mailto:burimajdini.ba@gmail.com"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="artist-hero">
+        <div class="hero-content">
+            <h1>Burim Ajdini: Contemporary Art Visionary</h1>
+            <p>Exploring the journey and creative expression of a modern master</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container artist-container">
+        <main>
+            <!-- Artist Bio -->
+            <article class="artist-bio">
+                <div class="artist-header">
+                    <img src="/public/images/Burim_Ajdini-89583384.jpg" alt="Burim Ajdini" class="artist-portrait">
+                    <div class="artist-info">
+                        <h2>Burim Ajdini</h2>
+                        <div class="artist-tagline">Contemporary Expressionist Painter & Sculptor</div>
+                        <div class="artist-social">
+                            <a href="https://www.instagram.com/ajdini.burim/"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.facebook.com/burim.ajdini.2025"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://x.com/BAjdini55043"><i class="fab fa-twitter"></i></a>
+                            <a href="https://de.pinterest.com/ARTBurim"><i class="fab fa-pinterest-p"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bio-content">
+                    <p>Burim Ajdini is a contemporary artist whose work bridges the gap between traditional expressionism and modern abstract concepts. Born in Tetovo and currently based in Berlin, his multicultural background deeply influences his artistic perspective, creating a unique visual language that resonates with global audiences.</p>
+                    
+                    <p>With over 15 years of professional experience, Burim has developed a distinctive style characterized by vibrant color palettes, textured surfaces, and emotionally charged compositions. His work explores themes of identity, cultural heritage, and the human experience in an increasingly digital world.</p>
+                    
+                    <h3>Artistic Journey</h3>
+                     <div class="artist-timeline">
+                        <div class="timeline-item">
+                            <strong>Tetovo Origins</strong> - Born and raised in Tetovo, where his artistic journey began
+                        </div>
+                        <div class="timeline-item">
+                            <strong>2012</strong> - Moved to Paris, developing his signature abstract style
+                        </div>
+                        <div class="timeline-item">
+                            <strong>2016</strong> - Established his New York studio, gaining international recognition
+                        </div>
+                        <div class="timeline-item">
+                            <strong>2022</strong> - Relocated to Berlin's vibrant art scene
+                        </div>
+                        <div class="timeline-item">
+                            <strong>2024</strong> - Established permanent studio in Berlin
+                        </div>
+                        <div class="timeline-item">
+                            <strong>2025</strong> - Founded ARTBurim online gallery
+                        </div>
+                    </div>
+                    
+                    
+                    <h3>Artistic Philosophy</h3>
+                    <p>"My work is a dialogue between the past and present, between cultural roots and contemporary experiences. I believe art should challenge perceptions while creating emotional connections. Each piece is a journey through layers of meaning, texture, and color - inviting viewers to discover their own interpretations."</p>
+                </div>
+            </article>
+            
+            <!-- Artistic Style -->
+            <section class="artistic-style">
+                <h2>Signature Styles & Techniques</h2>
+                <div class="style-grid">
+                    <div class="style-card">
+                        <img src="/public/images/berlin.jpg" alt="Textured Expressionism" class="style-img">
+                        <div class="style-content">
+                            <h3>Textured Expressionism</h3>
+                            <p>Burim's signature approach builds up thick layers of paint combined with unconventional materials like sand, fabric, and metal shavings to create dynamic, tactile surfaces that invite touch.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="style-card">
+                        <img src="/public/images/p21.jpg"" alt="Cultural Fusion" class="style-img">
+                        <div class="style-content">
+                            <h3>Cultural Fusion</h3>
+                            <p>Blending traditional Balkan motifs with contemporary abstract elements, this style creates a visual dialogue between heritage and modernity.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="style-card">
+                        <img src="/public/images/p3.jpg" alt="Digital Integration" class="style-img">
+                        <div class="style-content">
+                            <h3>Digital Integration</h3>
+                            <p>Burim's innovative approach incorporates augmented reality elements that reveal hidden layers of meaning when viewed through a smartphone.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="style-card">
+                        <img src="/public/images/474531600_2068744130221475_5904553943173741306_n.jpg" alt="Monumental Sculpture" class="style-img">
+                        <div class="style-content">
+                            <h3>Digital</h3>
+                            <p>This digital artwork presents a striking juxtaposition of a grayscale portrait and bold typographic elements. The left side features half of a face, digitally isolated and exhibiting natural details like freckles, alongside a vibrant green and pink digital stripe. The right side offers a stark white field hosting the digitally rendered text "I AM ART AND U?". This text is creatively integrated with the portrait, as a portion of the subject's eye is digitally embedded within the letters "A" and "U", blurring the lines between the figure and the concept of art. The piece employs digital manipulation to explore themes of identity, self-perception, and the subjective nature of art in a visually engaging manner.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Gallery Section -->
+            <section class="gallery-section">
+                <h2>Notable Works</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="/public/images/p11.jpg" alt="The Waiting Corner" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">The Waiting Corner (2022)</div>
+                            <div class="gallery-year">Mixed media on canvas, 180×120 cm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="/public/images/p12.jpg" alt="The Mandolin and the Box" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">The Mandolin and the Box (2023)</div>
+                            <div class="gallery-year">Acrylic and collage, 150×100 cm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="/public/images/p13.jpg" alt="Lovebirds at the Ledge" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Venus and the Rose (2023)</div>
+                            <div class="gallery-year">Oil and AR components, 200×150 cm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                         <img src="/public/images/19.jpg" alt="Lovebirds at the Ledge" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Lovebirds at the Ledge (2023)</div>
+                            <div class="gallery-year">Sculpture, reclaimed wood and steel, 300×200×150 cm</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="/public/images/p15.jpg" alt="Beneath the Surface" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Beneath the Surface (2022)</div>
+                            <div class="gallery-year">Mixed media installation, dimensions variable</div>
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-item">
+                        <img src="/public/images/p16.jpg" alt="Old town alley" class="gallery-img">
+                        <div class="gallery-overlay">
+                            <div class="gallery-title">Old town alley (2023)</div>
+                            <div class="gallery-year">Oil on canvas, 160×120 cm</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            `
+            <div class="sidebar-widget popular-posts">
+                <h3>Most Collected Works</h3>
+                <div class="post">
+                    <img src="/public/images/472944324_2060399201055968_1238707756377072766_n.jpg" alt="Fire and Soul" class="post-img">
+                    <div class="post-content">
+                        <h4>Roots and Wings (2020)</h4>
+                        <div class="post-date">Mixed media, 180×120 cm</div>
+                    </div>
+                </div>
+                <div class="post">
+                    <img src="/public/images/p16.jpg" alt="Old town alley" class="post-img">
+                    <div class="post-content">
+                        <h4>Old town alley</h4>
+                        <h4>(2023)</h4>
+                        <div class="post-date">Acrylic and collage, 150×100 cm</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Newsletter Widget -->
+            <div class="sidebar-widget newsletter-widget">
+                <h3>Artist Updates</h3>
+                <p>Receive exclusive insights into Burim's creative process and upcoming exhibitions.</p>
+                <form class="newsletter-form">
+                    <input type="text" placeholder="Your Name">
+                    <input type="email" placeholder="Your Email">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ARTBurim</h3>
+                    <p>Contemporary art gallery showcasing innovative works from established artist Burim Ajdini.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/burim.ajdini.2025"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/ajdini.burim/"><i class="fab fa-instagram"></i></a>
+                         <a href="https://x.com/BAjdini55043"><i class="fab fa-twitter"></i></a>
+                         <a href="https://de.pinterest.com/ARTBurim"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Shop</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="FAQs.html">FAQs</a></li>
+                        <li><a href="mailto:burimajdini.ba@gmail.com">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Collections</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Paintings</a></li>
+                        <li><a href="#">Mixed Media</a></li>
+                        <li><a href="#">Digital Art</a></li>
+                        <li><a href="#">Limited Editions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> Luckenwalder Str. 6,  Königs Wusterhausen, Berlin, Germany</li>
+                        <li><i class="fas fa-phone"></i> +49 177 383 953 7</li>
+                        <li><i class="fas fa-envelope"></i> burimajdini.ba@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 ARTBurim Gallery. All rights reserved. | Created with passion for art</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('active');
+        });
+        
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Gallery hover effect enhancement
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.querySelector('.gallery-overlay').style.transform = 'translateY(0)';
+            });
+            item.addEventListener('mouseleave', function() {
+                this.querySelector('.gallery-overlay').style.transform = 'translateY(100%)';
+            });
+        });
+    </script>
+</body>
+</html>
