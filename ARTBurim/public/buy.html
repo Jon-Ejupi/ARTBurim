@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buy Artwork | ARTBurim Gallery</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=ARDn-0CQ3mRKq_YatogKnJ2bj2mtX3b5e2LZP10jipIuLo4ZVqWahPbYV4tZRLNAIzEOZiyD0n620HpZ&currency=EUR"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2a5c3c;
+            --secondary: #64ffda;
+            --accent: #d4a373;
+            --light: #f8f9fa;
+            --dark: #0a192f;
+            --gray: #8892b0;
+        }
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: var(--primary);
+            padding: 20px 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--light);
+        }
+        .logo span {
+            color: var(--secondary);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        nav a {
+            color: var(--light);
+            font-size: 18px;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+        }
+        nav a:hover,
+        nav a.active {
+            color: var(--secondary);
+        }
+        .buy-section {
+            padding: 60px 20px;
+            background-color: var(--light);
+        }
+        .buy-form {
+            background: #fff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: 600;
+            margin-top: 15px;
+            display: block;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        #paypal-button-container {
+            margin-top: 20px;
+        }
+        .payment-methods {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .payment-methods label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .payment-methods input[type="radio"] {
+            width: auto;
+            margin-right: 10px;
+        }
+        .stripe-card-elements {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .submit-btn {
+            background: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+        .submit-btn:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        footer {
+            background-color: var(--primary);
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        footer p {
+            text-align: center;
+            font-size: 14px;
+        }
+        #payment-request-button {
+            height: 40px; /* Adjust as needed */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo"><i class="fas fa-palette"></i> ART<span>Burim</span></div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Shop</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="FAQs.html">FAQs</a></li>
+                    <li><a href="mailto:burimajdini.ba@gmail.com">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="buy-section">
+        <div class="container">
+            <h1>Purchase Artwork</h1>
+            <div class="buy-form">
+                <form id="purchase-form">
+                    <label for="artwork">Select Artwork</label>
+                    <select id="artwork" name="artwork" required>
+                        <option value="" disabled selected>Select an artwork</option>
+                        <option value="Lovebirds at the Ledge|2450">Lovebirds at the Ledge - €2,450</option>
+                        <option value="Beneath the Surface|1850">Beneath the Surface - €1,850</option>
+                        <option value="Old town alley|3200">Old town alley - €3,200</option>
+                        <option value="The Waiting Corner|2684">The Waiting Corner - €2,684</option>
+                        <option value="Floral Harmony|1894">Floral Harmony - €1,894</option>
+                        <option value="The Mandolin and the Box|1954">The Mandolin and the Box - €1,954</option>
+                        <option value="Whispers of the Shore|2950">Whispers of the Shore - €2,950</option>
+                        <option value="Shadows of Clay|2800">Shadows of Clay - €2,800</option>
+                        <option value="Emerald Haven|3500">Emerald Haven - €3,500</option>
+                    </select>
+
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="address">Shipping Address</label>
+                    <textarea id="address" name="address" rows="4" required></textarea>
+
+                    <div class="payment-methods">
+                        <label>
+                            <input type="radio" name="payment-method" value="paypal" checked>
+                            <i class="fab fa-paypal"></i> PayPal
+                        </label>
+                        <label>
+                            <input type="radio" name="payment-method" value="stripe">
+                            <i class="fab fa-cc-stripe"></i> Credit Card (Stripe)
+                        </label>
+                        <label id="google-pay-radio" style="display: none;">
+                            <input type="radio" name="payment-method" value="google-pay">
+                            <i class="fab fa-google-pay"></i> Google Pay
+                        </label>
+                        <label id="apple-pay-radio" style="display: none;">
+                            <input type="radio" name="payment-method" value="apple-pay">
+                            <i class="fab fa-apple-pay"></i> Apple Pay
+                        </label>
+                    </div>
+
+                    <div id="paypal-button-container"></div>
+
+                    <div id="stripe-card-element" class="stripe-card-elements" style="display: none;">
+                        <!-- A Stripe Element will be inserted here. -->
+                    </div>
+                    <div id="card-errors" role="alert" style="color: red; margin-top: 10px;"></div>
+
+                    <div id="payment-request-button" style="display: none;">
+                        <!-- A Stripe Payment Request Button will be inserted here. -->
+                    </div>
+
+                    <button type="submit" class="submit-btn">Proceed to Payment</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ARTBurim Gallery. All rights reserved. | Created with passion for art</p>
+        </div>
+    </footer>
+
+    <script>
+        const stripe = Stripe('pk_test_51RaFdxQE6ZwjkdgiNg2TKqeqvu4f86R0pP3EKG9cYDZAijg6sTHmkoNWEuarB7kkLfUlwDvSo1CSoicu26vRaQvn00retboOZg');
+        const elements = stripe.elements();
+        const card = elements.create('card', {
+            style: {
+                base: {
+                    fontSize: '16px',
+                    color: '#32325d',
+                    '::placeholder': {
+                        color: '#aab7c4',
+                    },
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a',
+                },
+            },
+        });
+        card.mount('#stripe-card-element');
+
+        const form = document.getElementById('purchase-form');
+        const paypalRadio = document.querySelector('input[value="paypal"]');
+        const stripeRadio = document.querySelector('input[value="stripe"]');
+        const googlePayRadio = document.getElementById('google-pay-radio');
+        const applePayRadio = document.getElementById('apple-pay-radio');
+        const paypalButtonContainer = document.getElementById('paypal-button-container');
+        const stripeCardElementContainer = document.getElementById('stripe-card-element');
+        const cardErrors = document.getElementById('card-errors');
+        const submitButton = document.querySelector('.submit-btn');
+        const paymentRequestButton = document.getElementById('payment-request-button');
+
+        let paymentRequest = null;
+
+        function togglePaymentMethod() {
+            const selectedMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+            paypalButtonContainer.style.display = 'none';
+            stripeCardElementContainer.style.display = 'none';
+            paymentRequestButton.style.display = 'none';
+            submitButton.style.display = 'none';
+
+            if (selectedMethod === 'paypal') {
+                paypalButtonContainer.style.display = 'block';
+            } else if (selectedMethod === 'stripe') {
+                stripeCardElementContainer.style.display = 'block';
+                submitButton.style.display = 'block';
+            } else if (selectedMethod === 'google-pay' || selectedMethod === 'apple-pay') {
+                paymentRequestButton.style.display = 'block';
+            }
+        }
+
+        paypalRadio.addEventListener('change', togglePaymentMethod);
+        stripeRadio.addEventListener('change', togglePaymentMethod);
+
+        if (googlePayRadio) {
+            googlePayRadio.querySelector('input').addEventListener('change', togglePaymentMethod);
+        }
+        if (applePayRadio) {
+            applePayRadio.querySelector('input').addEventListener('change', togglePaymentMethod);
+        }
+
+        togglePaymentMethod();
+
+        // PayPal integration
+        paypal.Buttons({
+            createOrder: async function (data, actions) {
+                const artwork = document.getElementById('artwork').value;
+                const [artworkName, price] = artwork.split('|');
+
+                const response = await fetch('https://us-central1-artburim-ae519.cloudfunctions.net/api/create-paypal-order', { // Replace with your actual Cloud Function URL
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: price,
+                        currency: 'EUR',
+                    }),
+                });
+
+                const orderData = await response.json();
+
+                if (orderData.orderID) {
+                    return orderData.orderID;
+                } else {
+                    console.error('Error creating PayPal order:', orderData.error);
+                    alert('Could not create PayPal order. Please try again.');
+                    return Promise.reject('Error creating order');
+                }
+            },
+            onApprove: async function (data, actions) {
+                const response = await fetch('https://us-central1-artburim-ae519.cloudfunctions.net/api/capture-paypal-order', { // Replace with your actual Cloud Function URL
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        orderID: data.orderID,
+                    }),
+                });
+
+                const captureData = await response.json();
+
+                if (captureData.status === 'COMPLETED') {
+                    alert('PayPal transaction completed successfully!');
+                    window.location.href = 'thank-you.html';
+                } else {
+                    console.error('Error capturing PayPal order:', captureData.status);
+                    alert('PayPal transaction failed or was not completed.');
+                }
+            },
+            onError: function (err) {
+                console.error('PayPal Error:', err);
+                alert('An error occurred during the PayPal transaction. Please try again.');
+            }
+        }).render('#paypal-button-container');
+
+        document.getElementById('artwork').addEventListener('change', updatePaymentRequest);
+
+        function updatePaymentRequest() {
+            const artwork = document.getElementById('artwork').value;
+            if (!artwork) return;
+
+            const [artworkName, price] = artwork.split('|');
+            const amount = parseFloat(price);
+
+            paymentRequest = stripe.paymentRequest({
+                country: 'DE',
+                currency: 'eur',
+                total: {
+                    label: artworkName,
+                    amount: Math.round(amount * 100),
+                },
+                requestPayerName: true,
+                requestPayerEmail: true,
+                requestShipping: true,
+                shippingOptions: [
+                    { id: 'standard-shipping', label: 'Standard Shipping', detail: 'Delivery in 5-7 business days', amount: 0 },
+                    { id: 'express-shipping', label: 'Express Shipping', detail: 'Delivery in 1-3 business days', amount: 2000 },
+                ],
+            });
+
+            paymentRequest.canMakePayment().then(function (result) {
+                if (result) {
+                    if (result.googlePay) {
+                        googlePayRadio.style.display = 'flex';
+                    }
+                    if (result.applePay) {
+                        applePayRadio.style.display = 'flex';
+                    }
+                    if (!result.googlePay && !result.applePay) {
+                        googlePayRadio.style.display = 'none';
+                        applePayRadio.style.display = 'none';
+                    }
+
+                    if (result.googlePay || result.applePay) {
+                        const prButton = elements.create('paymentRequestButton', {
+                            paymentRequest: paymentRequest,
+                        });
+                        prButton.mount('#payment-request-button');
+                    }
+                } else {
+                    googlePayRadio.style.display = 'none';
+                    applePayRadio.style.display = 'none';
+                    paymentRequestButton.style.display = 'none';
+                }
+            });
+
+            paymentRequest.on('token', async function (ev) {
+                const response = await fetch('https://us-central1-artburim-ae519.cloudfunctions.net/api/create-payment-intent', { // Replace with your actual Cloud Function URL
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        amount: amount,
+                        currency: 'eur',
+                        paymentMethodId: ev.token.id, // Use the token ID as payment method ID
+                    }),
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    console.error('Backend Error:', data.error);
+                    alert('Payment failed: ' + data.error);
+                    ev.complete('fail');
+                } else {
+                    alert('Payment successful! Client Secret: ' + data.clientSecret);
+                    ev.complete('success');
+                    window.location.href = 'thank-you.html';
+                }
+            });
+
+            paymentRequest.on('shippingaddresschange', function(ev) {
+                ev.update({
+                    status: 'success',
+                    shippingOptions: [
+                        { id: 'standard-shipping', label: 'Standard Shipping', detail: 'Delivery in 5-7 business days', amount: 0 },
+                        { id: 'express-shipping', label: 'Express Shipping', detail: 'Delivery in 1-3 business days', amount: 2000 },
+                    ],
+                    total: {
+                        label: artworkName,
+                        amount: Math.round(amount * 100) + (ev.shippingOption ? ev.shippingOption.amount : 0),
+                    },
+                });
+            });
+
+            paymentRequest.on('shippingoptionchange', function(ev) {
+                ev.update({
+                    total: {
+                        label: artworkName,
+                        amount: Math.round(amount * 100) + ev.shippingOption.amount,
+                    },
+                });
+            });
+        }
+
+        updatePaymentRequest();
+
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+            const artwork = document.getElementById('artwork').value;
+            const [artworkName, price] = artwork.split('|');
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+
+            if (selectedPaymentMethod === 'stripe') {
+                const { token, error } = await stripe.createToken(card, {
+                    name: name,
+                    address_line1: address.split('\n')[0],
+                    address_city: address.split('\n')[1] || '',
+                    address_country: 'DE',
+                });
+
+                if (error) {
+                    cardErrors.textContent = error.message;
+                } else {
+                    cardErrors.textContent = '';
+                    // Send the token to your backend
+                    const response = await fetch('https://us-central1-artburim-ae519.cloudfunctions.net/api/create-payment-intent', { // Replace with your actual Cloud Function URL
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            amount: parseFloat(price),
+                            currency: 'eur',
+                            paymentMethodId: token.id,
+                        }),
+                    });
+
+                    const data = await response.json();
+
+                    if (data.error) {
+                        console.error('Backend Error:', data.error);
+                        alert('Payment failed: ' + data.error);
+                    } else {
+                        alert('Payment successful! Client Secret: ' + data.clientSecret);
+                        window.location.href = 'thank-you.html';
+                    }
+                }
+            } else if (selectedPaymentMethod === 'paypal') {
+                // PayPal is handled by its own button rendering, no need for form submission here
+            }
+        });
+    </script>
+</body>
+</html>

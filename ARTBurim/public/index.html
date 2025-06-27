@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARTBurim Gallery | Artwork Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #2a5c3c;
+            --secondary: #64ffda;
+            --accent: #d4a373;
+            --light: #f8f9fa;
+            --dark: #0a192f;
+            --gray: #8892b0;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--light);
+            font-weight: 600;
+            font-size: 18px;
+            position: relative;
+            padding: 5px 0;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        nav a.active {
+            color: var(--secondary);
+        }
+        
+        nav a.active::after {
+            width: 100%;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            color: var(--light);
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'),);
+            background-size: cover;
+            background-position: center;
+            height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light);
+            margin-bottom: 60px;
+            border-radius: 15px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 20px;
+        }
+        
+        .hero-content h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--dark);
+            padding: 12px 30px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Artwork Showcase */
+        .showcase-section {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 42px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            font-size: 20px;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 25px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .artwork-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .artwork-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .artwork-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .artwork-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--accent);
+        }
+        
+        .artwork-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 2;
+        }
+        
+        .artwork-info {
+            padding: 20px;
+        }
+        
+        .artwork-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .artwork-artist {
+            font-size: 18px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .artwork-dymantions{
+             font-size: 18px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        
+        .artwork-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .artwork-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .artwork-year {
+            font-size: 16px;
+            color: var(--gray);
+        }
+        
+        .details-btn {
+            background: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .details-btn:hover {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .category-section {
+            margin-bottom: 80px;
+        }
+        
+        .category-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        .category-title h3 {
+            font-size: 32px;
+            color: var(--primary);
+        }
+        
+        .category-title i {
+            font-size: 28px;
+            color: var(--accent);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            display: block;
+            padding: 5px 0;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+            opacity: 1;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--secondary);
+            color: var(--dark);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.7;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero-content h1 {
+                font-size: 48px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            z-index: 1001;
+            position: relative;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 5px;
+            margin-right: 10px;
+        }
+            
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                padding: 10px 20px;
+            }
+            
+            .hero-content h1 {
+                font-size: 36px;
+            }
+            
+            .section-title h2 {
+                font-size: 32px;
+            }
+            
+            .category-title h3 {
+                font-size: 28px;
+            }
+            
+            .artwork-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            
+            .category-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-palette"></i>
+                ART<span>Burim</span>
+            </a>
+            
+            <button class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active"><i class="fas fa-store"></i> Shop</a></li>
+                    <li><a href="blog.html"><i class="fas fa-blog"></i> Blog</a></li>
+                    <li><a href="FAQs.html"><i class="fas fa-question-circle"></i> FAQs</a></li>
+                    <li><a href="mailto:burimajdini.ba@gmail.com"><i class="fas fa-envelope"></i> Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Discover Extraordinary Art</h1>
+            <p>Experience the vibrant world of ARTBurim Gallery, where creativity meets passion in every brushstroke</p>
+            <a href="#" class="btn">Explore Collection</a>
+        </div>
+    </section>
+
+    <!-- Artwork Showcase -->
+    <section class="showcase-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Artwork Showcase</h2>
+                <p>Explore our curated collections across various art categories and styles</p>
+            </div>
+            
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">All Categories</button>
+                <button class="filter-btn" data-category="landscape">Landscapes</button>
+                <button class="filter-btn" data-category="still-life">Still Life</button>
+                <button class="filter-btn" data-category="limited">Limited Editions</button>
+            </div>
+            
+           
+            <!-- Landscapes -->
+            <div class="category-section" id="landscape">
+                <div class="category-title">
+                    <i class="fas fa-mountain"></i>
+                    <h3>Landscapes</h3>
+                </div>
+                
+                     <div class="artwork-grid">
+                    <!-- Artwork 1 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Landscapes</span>
+                        <img src="/ARTBurim/ARTBurim/public/images/p14.jpg" alt="Abstract Painting" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title">Lovebirds at the Ledge</h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                            <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€2,450</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2023</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Artwork 2 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Landscapes</span>
+                        <img src="images/p15.jpg" alt="Abstract Painting" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title"> Beneath the Surface</h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                               <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€1,850</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2022</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                 <!-- Artwork 3 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Landscapes</span>
+                        <img src="images/p16.jpg" alt="Abstract Painting" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title">Old town alley</h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                               <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€3,200</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2023</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Still Life -->
+            <div class="category-section" id="still-life">
+                <div class="category-title">
+                    <i class="fas fa-apple-alt"></i>
+                    <h3>Still Life</h3>
+                </div>
+                
+                <div class="artwork-grid">
+                    <!-- Artwork 1 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Still Life</span>
+                        <img src="images/p11.jpg" alt="Still Life Painting" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title">The Waiting Corner </h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                               <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€2,684</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2022</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Artwork 2 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Still Life</span>
+                        <img src="images/472944324_2060399201055968_1238707756377072766_n.jpg" alt="Still Life Painting" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title">Floral Harmony</h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                               <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€1,894</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2023</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Artwork 3 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Still Life</span>
+                        <img src="images/p12.jpg" alt="Still Life Painting" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title">The Mandolin and the Box</h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                               <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€1,954</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2023</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- Limited Editions -->
+            <div class="category-section" id="limited">
+                <div class="category-title">
+                    <i class="fas fa-certificate"></i>
+                    <h3>Limited Editions</h3>
+                </div>
+                
+                <div class="artwork-grid">
+                    <!-- Artwork 1 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Limited Edition</span>
+                        <img src="images/p9.jpg" alt="Limited Edition" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title">Whispers of the Shore</h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                               <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€2,950</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2023</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Artwork 2 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Limited Edition</span>
+                        <img src="images/p17.jpg" alt="Limited Edition" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title">Shadows of Clay</h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                               <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€2,800</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2022</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Artwork 3 -->
+                    <div class="artwork-card">
+                        <span class="artwork-badge">Limited Edition</span>
+                        <img src="images/p18.jpg" alt="Limited Edition" class="artwork-img">
+                        <div class="artwork-info">
+                            <h4 class="artwork-title">Emerald Haven</h4>
+                            <p class="artwork-artist">Burim Ajdini</p>
+                               <p class="artwork-dymantions">Medium</p>
+                            <p class="artwork-price">€3,500</p>
+                            <div class="artwork-meta">
+                                <span class="artwork-year">2023</span>
+                                <a href="buy.html" class="details-btn">Buy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ARTBurim Gallery</h3>
+                    <p>Showcasing extraordinary contemporary art from  established artist Burim Ajdini. since 2025.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/ajdini.burim/"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/burim.ajdini.2025"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://x.com/BAjdini55043"><i class="fab fa-twitter"></i></a>
+                        <a href="https://de.pinterest.com/ARTBurim"><i class="fab fa-pinterest-p"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html">Gallery</a></li>
+                        <li><a href="blog.html">Blog</a></li>
+                        <li><a href="FAQs.html">FAQs</a></li>
+                        <li><a href="mailto:burimajdini.ba@gmail.com">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Collections</h3>
+                    <ul class="footer-links">
+                        <li><a href="#landscape">Landscapes</a></li>
+                        <li><a href="#still-life">Still Life</a></li>
+                        <li><a href="#limited">Limited Editions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i>  Luckenwalder Str. 6, Königs Wusterhausen, Berlin, Germany</li>
+                        <li><i class="fas fa-phone"></i>  +49 177 383 953 7</li>
+                        <li><i class="fas fa-envelope"></i> burimajdini.ba@gmail.com</li>
+
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2025 ARTBurim Gallery. All rights reserved. | Created with passion for art</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('active');
+        });
+        
+        // Category Filtering
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const categorySections = document.querySelectorAll('.category-section');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                button.classList.add('active');
+                
+                const category = button.getAttribute('data-category');
+                
+                if (category === 'all') {
+                    // Show all sections
+                    categorySections.forEach(section => {
+                        section.style.display = 'block';
+                    });
+                    // Scroll to showcase section
+                    document.querySelector('.showcase-section').scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    // Hide all sections
+                    categorySections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    // Show selected category
+                    document.getElementById(category).style.display = 'block';
+                    // Scroll to selected category
+                    document.getElementById(category).scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Set active page based on current URL
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('nav a');
+            
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('href');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
