@@ -1,0 +1,21 @@
+{
+  "name": "artburim-backend",
+  "version": "1.0.0",
+  "description": "Backend for ARTBurim Gallery",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "firebase-admin": "^12.1.1",
+    "firebase-functions": "^5.0.1",
+    "stripe": "^16.0.0",
+    "@paypal/checkout-server-sdk": "^1.0.1"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "private": true
+}
